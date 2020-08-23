@@ -3,7 +3,7 @@
     <the-header />
     <div class="container is-fluid">
       <div class="container">
-        
+        <router-view />
       </div>
     </div>
   </div>

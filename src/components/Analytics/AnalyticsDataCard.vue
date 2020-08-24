@@ -1,5 +1,9 @@
 <template>
-  <div class="card analytics-card">
+  <div
+    class="card analytics-card"
+    :class="{ active: active }"
+    @click="$emit('click')"
+  >
     <header class="card-header">
       <p class="card-header-title">
         {{ title }}
@@ -34,9 +38,12 @@
 <script>
 export default {
   props: {
+    active: {
+      type: Boolean,
+    },
     dataSets: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     percentage: {
       type: Number,
@@ -61,5 +68,8 @@ export default {
     border: none;
     justify-content: start;
   }
+}
+.analytics-card.active {
+  box-shadow: 0 0.1em 0.3em 0.2em #7957d5;
 }
 </style>

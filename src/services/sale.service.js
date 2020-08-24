@@ -21,32 +21,32 @@ export default class SaleService {
       setTimeout(() => {
         resolve({
           "08-01-2020": {
-            sales: 10000,
-            revenue: 10000,
+            sales: 20000,
+            revenue: 40000,
           },
           "08-02-2020": {
-            sales: 10000,
-            revenue: 10000,
+            sales: 30000,
+            revenue: 30000,
           },
           "08-03-2020": {
-            sales: 10000,
-            revenue: 10000,
+            sales: 40000,
+            revenue: 20000,
           },
           "08-04-2020": {
-            sales: 10000,
+            sales: 50000,
             revenue: 10000,
           },
           "08-05-2020": {
-            sales: 10000,
-            revenue: 10000,
+            sales: 40000,
+            revenue: 20000,
           },
           "08-06-2020": {
-            sales: 10000,
-            revenue: 10000,
+            sales: 30000,
+            revenue: 30000,
           },
           "08-07-2020": {
-            sales: 10000,
-            revenue: 10000,
+            sales: 20000,
+            revenue: 40000,
           },
         });
       }, 2000);

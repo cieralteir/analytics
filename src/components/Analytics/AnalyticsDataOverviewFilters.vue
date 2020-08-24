@@ -1,5 +1,5 @@
 <template>
-  <div class="analytics-data-overview-filters">
+  <div class="analytics-data-overview-filters my-5">
     <b-field grouped>
       <b-field>
         <b-select v-model="filters.preset">
@@ -47,12 +47,13 @@ export default {
   methods: {
     transformed() {
       return {
-        startDate: this.filters.dates[0],
-        endDate: this.filters.dates[1],
+        dateStart: this.filters.dates[0],
+        dateEnd: this.filters.dates[1],
       };
     },
     filter() {
       this.$emit("filter", this.transformed());
+      this.$emit("update:filters", this.transformed());
     },
     onFilterDatesRangeEnd() {
       this.filters.preset = "";

@@ -1,6 +1,5 @@
 <template>
-  <div class="analytics-data-overview">
-    <b-loading v-model="loading" :is-full-page="true" :can-cancel="true" />
+  <div class="analytics-data-overview mb-5">
     <analytics-data-overview-filters @filter="onFilter" />
     <div class="card analytics-card">
       <header class="card-header">
@@ -21,6 +20,7 @@
 import AnalyticsDataOverviewChart from "@/components/Analytics/AnalyticsDataOverviewChart";
 import AnalyticsDataOverviewFilters from "@/components/Analytics/AnalyticsDataOverviewFilters";
 import SaleService from "@/services/sale.service";
+import { mapMutations } from "vuex";
 
 export default {
   props: {
@@ -50,7 +50,6 @@ export default {
     chartLabels: [],
     chartDatasets: [],
     filters: {},
-    loading: false
   }),
   watch: {
     type() {
@@ -58,6 +57,7 @@ export default {
     },
   },
   methods: {
+    ...mapMutations(["startLoading", "endLoading"]),
     async loadOverview() {
       switch (this.type) {
         case "sales":
@@ -73,7 +73,7 @@ export default {
     },
     async loadOverviewSales() {
       try {
-        this.loading = true;
+        this.startLoading();
 
         const data = await SaleService.overview(this.filters);
 
@@ -108,7 +108,7 @@ export default {
       } catch (err) {
         console.log(err);
       } finally {
-        this.loading = false;
+        this.endLoading();
       }
     },
     onFilter(filters) {

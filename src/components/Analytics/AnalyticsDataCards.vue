@@ -1,6 +1,5 @@
 <template>
   <div class="analytics-data-cards">
-    <b-loading v-model="loading" :is-full-page="true" :can-cancel="true" />
     <div class="columns is-multiline is-vcentered">
       <div class="column is-6-tablet is-4-desktop is-3-fullhd">
         <analytics-data-card
@@ -97,6 +96,7 @@ import SaleService from "@/services/sale.service";
 import EngagementService from "@/services/engagement.service";
 import AcquisitionService from "@/services/acquisition.service";
 import RewardService from "@/services/reward.service";
+import { mapMutations } from "vuex";
 
 export default {
   components: {
@@ -110,7 +110,6 @@ export default {
       rewards: {},
     },
     selected: null,
-    loading: false,
   }),
   mounted() {
     this.fetchAnalytics();
@@ -118,12 +117,13 @@ export default {
   watch: {
     selected(value) {
       this.$emit("update:selected", value);
-    }
+    },
   },
   methods: {
+    ...mapMutations(["startLoading", "endLoading"]),
     async fetchAnalytics() {
       try {
-        this.loading = true;
+        this.startLoading();
 
         const values = await Promise.all([
           SaleService.analytics(),
@@ -139,7 +139,7 @@ export default {
       } catch (err) {
         console.error(err);
       } finally {
-        this.loading = false;
+        this.endLoading();
       }
     },
   },

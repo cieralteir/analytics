@@ -1,5 +1,6 @@
 <template>
   <div class="analytics-page">
+    <b-loading v-model="loading" :is-full-page="true" :can-cancel="true" />
     <h1 class="title is-size-4">Analytics</h1>
     <div class="columns is-multiline">
       <div class="column is-4-desktop is-3-fullhd">
@@ -65,16 +66,16 @@
       <div class="column is-4-desktop is-3-fullhd">
         <analytics-data-card
           title="Rewards Program"
-          :percentage="analytics.rewardsProgram.percentage"
-          :percentage-increase="analytics.rewardsProgram.percentageIncrease"
+          :percentage="analytics.rewards.percentage"
+          :percentage-increase="analytics.rewards.percentageIncrease"
           :data-sets="[
             {
               label: 'Rewards Redemeed',
-              value: analytics.rewardsProgram.rewardsRedeemed,
+              value: analytics.rewards.rewardsRedeemed,
             },
             {
               label: 'Issued Rewards',
-              value: analytics.rewardsProgram.issuedRewards,
+              value: analytics.rewards.issuedRewards,
             },
           ]"
         />
@@ -87,41 +88,50 @@
 <script>
 import AnalyticsDataCard from "@/components/Analytics/AnalyticsDataCard";
 import AnalyticsDataOverview from "@/components/Analytics/AnalyticsDataOverview";
+import SaleService from "@/services/sale.service";
+import EngagementService from "@/services/engagement.service";
+import AcquisitionService from "@/services/acquisition.service";
+import RewardService from "@/services/reward.service";
 
 export default {
   components: {
     AnalyticsDataCard,
-    AnalyticsDataOverview
+    AnalyticsDataOverview,
   },
   data: () => ({
-    // From API
     analytics: {
-      sales: {
-        averageOrderValue: 1000,
-        lifetimeSales: 175000,
-        percentage: 20,
-        percentageIncrease: true,
-        revenueSales: 170000,
-      },
-      engagement: {
-        dailyAverage: 57,
-        lifetimeSmsEngagements: 285,
-        percentage: 20,
-        percentageIncrease: false,
-      },
-      acquisition: {
-        dailyAverage: 57,
-        registeredUsers: 285,
-        percentage: 20,
-        percentageIncrease: true,
-      },
-      rewardsProgram: {
-        issuedRewards: 175000,
-        percentage: 20,
-        percentageIncrease: true,
-        rewardsRedeemed: 175000,
-      },
+      sales: {},
+      engagement: {},
+      acquisition: {},
+      rewards: {},
     },
+    loading: false,
   }),
+  mounted() {
+    this.fetchAnalytics();
+  },
+  methods: {
+    async fetchAnalytics() {
+      try {
+        this.loading = true;
+
+        const values = await Promise.all([
+          SaleService.analytics(),
+          EngagementService.analytics(),
+          AcquisitionService.analytics(),
+          RewardService.analytics(),
+        ]);
+
+        this.analytics.sales = values[0];
+        this.analytics.engagement = values[1];
+        this.analytics.acquisition = values[2];
+        this.analytics.rewards = values[3];
+      } catch (err) {
+        console.error(err);
+      } finally {
+        this.loading = false;
+      }
+    },
+  },
 };
 </script>

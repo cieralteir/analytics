@@ -3,7 +3,7 @@
     <h1 class="title is-size-4">Analytics</h1>
     <div class="columns is-multiline">
       <div class="column is-4-desktop is-3-fullhd">
-        <analytics-card
+        <analytics-data-card
           title="Sales"
           :percentage="analytics.sales.percentage"
           :percentage-increase="analytics.sales.percentageIncrease"
@@ -26,10 +26,10 @@
               {{ analytics.sales.averageOrderValue }}
             </div>
           </template>
-        </analytics-card>
+        </analytics-data-card>
       </div>
       <div class="column is-4-desktop is-3-fullhd">
-        <analytics-card
+        <analytics-data-card
           title="Engagement"
           :percentage="analytics.engagement.percentage"
           :percentage-increase="analytics.engagement.percentageIncrease"
@@ -46,7 +46,7 @@
         />
       </div>
       <div class="column is-4-desktop is-3-fullhd">
-        <analytics-card
+        <analytics-data-card
           title="Acquisition"
           :percentage="analytics.acquisition.percentage"
           :percentage-increase="analytics.acquisition.percentageIncrease"
@@ -63,7 +63,7 @@
         />
       </div>
       <div class="column is-4-desktop is-3-fullhd">
-        <analytics-card
+        <analytics-data-card
           title="Rewards Program"
           :percentage="analytics.rewardsProgram.percentage"
           :percentage-increase="analytics.rewardsProgram.percentageIncrease"
@@ -80,15 +80,18 @@
         />
       </div>
     </div>
+    <analytics-data-overview />
   </div>
 </template>
 
 <script>
-import AnalyticsCard from "@/components/Analytics/AnalyticsCard";
+import AnalyticsDataCard from "@/components/Analytics/AnalyticsDataCard";
+import AnalyticsDataOverview from "@/components/Analytics/AnalyticsDataOverview";
 
 export default {
   components: {
-    AnalyticsCard,
+    AnalyticsDataCard,
+    AnalyticsDataOverview
   },
   data: () => ({
     // From API
